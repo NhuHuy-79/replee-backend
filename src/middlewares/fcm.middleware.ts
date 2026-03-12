@@ -10,7 +10,7 @@ export const deviceTokenMiddleware = async (
     try {
         const deviceToken = req.headers["device-token"] as string
         if (!deviceToken) {
-            return failure("Device token is required", 400);
+            return res.status(400).json(failure("Device token is required", 400));
         }
         req.body.deviceToken = deviceToken
         console.log("Device token:", deviceToken)
