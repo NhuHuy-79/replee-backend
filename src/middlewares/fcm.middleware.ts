@@ -18,6 +18,6 @@ export const deviceTokenMiddleware = async (
         next()
 
     } catch (error) {
-       res.status(400).json(failure("Invalid device token", 400))
+       return res.status(400).json(failure("Invalid device token", 400))
     } 
 }

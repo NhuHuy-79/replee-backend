@@ -9,13 +9,15 @@ export const sendConversationNotification = async (
 ) => {
   try {
 
-    const { conversationId, senderName, imgUrl : imgUrl, content, contentType: contentType } = messagePayload
+    const { receiverId, conversationId, senderName, imgUrl : imgUrl, content, contentType: contentType } = messagePayload
 
     console.log("Sending notification with payload:", messagePayload)
 
     const message = {
       token: deviceToken,
       data: {
+        senderId: uid,
+        receiverId: receiverId,
         conversationId: String(conversationId),
         senderImg: imgUrl ?? "",
         senderName: senderName ?? "",
@@ -23,7 +25,8 @@ export const sendConversationNotification = async (
         type: contentType ?? ""
       }
 }
-    const messageId = await admin.messaging().send(message)
+   const messageId = await admin.messaging().send(message)
+  
 
     console.log("SERVICE HIT")
 

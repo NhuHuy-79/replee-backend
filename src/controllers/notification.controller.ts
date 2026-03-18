@@ -13,9 +13,10 @@ export const pushNotification = async (req: AuthenticatedRequest, res: Response)
     return res.status(401).json(failure("Unauthorized", 401))
   } 
 
-  const { conversationId, senderName, imgUrl, content, contentType } = req.body
+  const { receiverId, conversationId, senderName, imgUrl, content, contentType } = req.body
   const deviceToken = req.body.deviceToken
   const messagePayload = {
+    receiverId,
     conversationId,
     imgUrl,
     senderName,
@@ -25,11 +26,13 @@ export const pushNotification = async (req: AuthenticatedRequest, res: Response)
 
   const response = await sendConversationNotification(uid, deviceToken, messagePayload)
 
-  res.status(response.success ? 200 : 500).json(response)
+  console.log("===> Response từ Service:", response);
+
+  return res.status(response.success ? 200 : 500).json(response)
 
   } catch (error) {
   
-    res.status(500).json(failure("Failed to send notification", 500))
+    return res.status(500).json(failure("Failed to send notification", 500))
   }
 }
 

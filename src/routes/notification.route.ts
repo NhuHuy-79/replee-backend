@@ -5,6 +5,10 @@ import { pushNotification } from "../controllers/notification.controller"
 
 const router = Router()
 
-router.post("/send", deviceTokenMiddleware, firebaseAuthMiddleware, pushNotification)
+router.post("/send", firebaseAuthMiddleware,deviceTokenMiddleware, pushNotification)
+
+router.get("/test", (req,res)=>{
+  res.json({ok:true})
+})
 
 export default router

@@ -1,4 +1,5 @@
 export interface MessagePayload {
+  receiverId: string,
   conversationId: string
   senderName: string
   imgUrl: string
