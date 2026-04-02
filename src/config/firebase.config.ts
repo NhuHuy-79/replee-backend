@@ -1,20 +1,33 @@
-import admin from "firebase-admin"
-import dotenv from 'dotenv';
-dotenv.config(); 
+import admin from "firebase-admin";
 
-console.log("ENV:", process.env.FIREBASE_SERVICE_ACCOUNT)
+const initFirebase = () => {
+  if (admin.apps.length > 0) return admin;
 
-if (!admin.apps.length) {
+  const serviceAccountRaw = process.env.FIREBASE_SERVICE_ACCOUNT;
 
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID, 
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'), 
-    }),
-  })
+  // 1. Kiểm tra xem biến có tồn tại không
+  if (!serviceAccountRaw) {
+    console.error("❌ LỖI: Biến FIREBASE_SERVICE_ACCOUNT đang bị undefined!");
+    return null;
+  }
 
+  try {
+    // 2. Parse JSON
+    const serviceAccount = JSON.parse(serviceAccountRaw);
+    
+    // 3. Xử lý dấu xuống dòng cho Private Key
+    if (serviceAccount.private_key) {
+      serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+    }
 
-}
+    return admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  } catch (error) {
+    console.error("❌ LỖI khi parse JSON hoặc Init Firebase:", error);
+    return null;
+  }
+};
 
-export default admin
+const firebaseAdmin = initFirebase();
+export default firebaseAdmin;
