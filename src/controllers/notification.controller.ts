@@ -13,9 +13,10 @@ export const pushNotification = async (req: AuthenticatedRequest, res: Response)
     return res.status(401).json(failure("Unauthorized", 401))
   } 
 
-  const { receiverId, conversationId, senderName, imgUrl, content, contentType } = req.body
+  const { receiverId, conversationId, senderName, imgUrl, content, contentType, messageId } = req.body
   const deviceToken = req.body.deviceToken
   const messagePayload = {
+    messageId,
     receiverId,
     conversationId,
     imgUrl,
