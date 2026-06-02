@@ -17,6 +17,10 @@ export const firebaseAuthMiddleware = async (
         }
 
         const token = authHeader.split(" ")[1]
+
+        if (!token) {
+            return res.status(401).json(failure("Authentication token is missing", 401))
+        }
         
         const decodedToken = await admin.auth().verifyIdToken(token)
 

@@ -5,14 +5,13 @@ const initFirebase = () => {
 
   const serviceAccountRaw = process.env.FIREBASE_SERVICE_ACCOUNT;
 
-  // 1. Kiểm tra xem biến có tồn tại không
+  // 1. Kiểm tra xem biến có tồn tại không, throw lỗi nếu thiếu để dừng ứng dụng ngay lập tức
   if (!serviceAccountRaw) {
-    console.error("❌ LỖI: Biến FIREBASE_SERVICE_ACCOUNT đang bị undefined!");
-    return null;
+    throw new Error("FATAL ERROR: Environment variable FIREBASE_SERVICE_ACCOUNT is not defined.");
   }
 
   try {
-    // 2. Parse JSON
+    // 2. Phân tích chuỗi JSON
     const serviceAccount = JSON.parse(serviceAccountRaw);
     
     // 3. Xử lý dấu xuống dòng cho Private Key
@@ -24,8 +23,8 @@ const initFirebase = () => {
       credential: admin.credential.cert(serviceAccount),
     });
   } catch (error) {
-    console.error("❌ LỖI khi parse JSON hoặc Init Firebase:", error);
-    return null;
+    // Throw lỗi để ứng dụng dừng lại nếu config sai, giúp phát hiện lỗi sớm
+    throw new Error(`FATAL ERROR: Failed to parse or initialize Firebase Admin SDK. ${error instanceof Error ? error.message : String(error)}`);
   }
 };
 
