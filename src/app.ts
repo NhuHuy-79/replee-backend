@@ -2,6 +2,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 import express from "express"
+import imageRoutes from "./routes/file.route"
 import notificationRoutes from "./routes/notification.route"
 import { deviceTokenMiddleware } from "./middlewares/fcm.middleware"
 import { firebaseAuthMiddleware } from "./middlewares/auth.middleware"
@@ -15,5 +16,6 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/v1/notifications",notificationRoutes)
+app.use("/api/v1/images", imageRoutes )
 
 export default app
