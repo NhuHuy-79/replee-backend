@@ -13,8 +13,11 @@ export enum MessageType {
     IMAGE_URL = "IMAGE_URL",
     VIDEO_URL = "VIDEO_URL",
     FILE_URL = "FILE_URL",
+    REPLY = "REPLY",
     TEXT = "TEXT",
     IMAGE = "IMAGE",
     VIDEO = "VIDEO",
     FILE = "FILE",
+    REACTION = "REACTION",
+    OTHER = "OTHER"
 }
