@@ -18,8 +18,9 @@ const pushNotificationSchema = z.object({
   deviceToken: z.string().min(1, "deviceToken is required"),
 })
 
-export const pushNotification = async (req: AuthenticatedRequest, res: Response) => {
+export const pushNotification = async (auth: Request, res: Response) => {
   try {
+    const req = auth as AuthenticatedRequest;
     const uid = req.user?.uid
 
     if (!uid) {

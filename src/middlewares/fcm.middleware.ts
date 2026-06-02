@@ -1,13 +1,14 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthenticatedRequest } from '../types/auth.request';
 import { failure, success } from '../utils/response';
 
 export const deviceTokenMiddleware = async (
-    req: AuthenticatedRequest,
+    authReq: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
+        const req = authReq as AuthenticatedRequest;
         const deviceToken = req.headers["device-token"] as string
         if (!deviceToken) {
             return res.status(400).json(failure("Device token is required", 400));

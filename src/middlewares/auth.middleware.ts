@@ -5,12 +5,13 @@ import { success, failure } from '../utils/response';
 import admin from '../config/firebase.config';
 
 export const firebaseAuthMiddleware = async (
-    req: AuthenticatedRequest,
+    authReq: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const authHeader = req.headers.authorization;   
+        const req = authReq as AuthenticatedRequest;
+        const authHeader = req.headers.authorization;    
 
         if (!authHeader  || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json(failure("Authentication token is missing or invalid", 401))
