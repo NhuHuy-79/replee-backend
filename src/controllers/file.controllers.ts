@@ -31,7 +31,6 @@ export const deleteImage = async (req: Request, res: Response) => {
       return res.status(400).json(failure(result.message, 400));
     }
 
-    // 5. Trả kết quả thành công về cho Android Client
     return res.status(200).json(success(result.message));
 
   } catch (error: any) {

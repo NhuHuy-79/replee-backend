@@ -27,7 +27,6 @@ export const pushNotification = async (auth: Request, res: Response) => {
       return res.status(401).json(failure("Unauthorized: Missing user identity", 401))
     } 
 
-    // 1. Validation kiểm tra chặt chẽ payload
     const validationResult = pushNotificationSchema.safeParse(req.body)
     
     if (!validationResult.success) {
@@ -35,10 +34,8 @@ export const pushNotification = async (auth: Request, res: Response) => {
       return res.status(400).json(failure(`Validation failed: ${errorMessage}`, 400))
     }
 
-    // 2. Tách dữ liệu an toàn sau khi pass qua Zod
     const { deviceToken, ...messagePayload } = validationResult.data
 
-    // 3. Xử lý Service
     const response = await sendConversationNotification(uid, deviceToken, messagePayload)
 
     if (!response.success) {

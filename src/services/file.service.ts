@@ -8,7 +8,6 @@ export const deleteImageFromCloudinary = async (publicId: string): Promise<{ suc
       return { success: true, message: "Image deleted from Cloudinary successfully" };
     }
 
-    // Trường hợp mã publicId không tồn tại hoặc lỗi khác từ hãng
     return { success: false, message: `Cloudinary returned status: ${response.result}` };
   } catch (error) {
     console.error("[Cloudinary Service Error]:", error);
